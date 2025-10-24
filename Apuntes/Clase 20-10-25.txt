@@ -1,0 +1,70 @@
+* Averiguar cuál es la misión GAIA, cuándo se lanzó, cuáles son los objetivos de la misión
+
+Se realiza una petición query_text, se escogen 4096 galaxias, la acención recta, la declinación, la velocidad radial, filtros en la banda del azul y del rojo, estos satos vana  estar filtrados para un error de paralaje mayor que 10, que significa que si el paralaje es mayor que 10, el error va a ser 0.1
+
+$d=\frac{1}{\pi}$
+
+$\pi = arcseg$
+
+si $\pi = 1 arcsec$  $d = 1pc$
+
+El paralaje va a ser menor para estrellas más lejanas.
+
+$\Delta d = \frac{1}{\Delta \pi}$ si $\Delta \pi > 10$ entonces $\Delta d=0.1$
+
+
+El paralaje debe ser mayor que 10, entonces $\pi --> 10 mas$ sí $\pi> 10$
+
+$d = \frac{1}{\pi}$  $d=\frac{1}{10x10^-3arcseg}
+
+$d=100pc$
+
+Se observa el archivo fits como una tabla.
+
+De las distancias que tenemos se encuentra la distancia mínima y la distancia máxima.
+
+El movimiento propio es: $\mu²=\Delta \delta² + \Delta \alpha² \cos² \delta$
+
+Se pasan de coordenadas ecuatoriales a galácticas, el objeto c se convierte a coordenadas galácticas c.galactic.
+
+* ¿A qué corresponde la misión gravity?
+
+Se grea otro objeto galcen y se convierte a coordenadas galactocéntricas (cartesianas). Se tienen posiciones x, y, z en pc.
+
+Se realiza un histograma en donde se ve la distancia a las estrellas, la mayor cantidad de estrellas están sobre el plano galáctico.
+
+La máxima velocidad es 125 y la menor -125 para acotar las velocidades; Pero para y se está centrando en el valor de 200
+
+* ¿Por qué se centra la velocidad en y en 200 y -200?
+
+Hay una forma para hallar la distancia a las estrellas por medio de la magnitud de las estrellas, llamado módulo de distancia, que es:
+
+$m-M = 5 \log d -5$ Proviene de la Ley de Pogson.
+
+Se realiza el diagrama de magnitud absoluta y color.
+
+Se realizan un par de máscaras para saber cuáles son de alta masa y de baja masa. En el rango de 0.5 y 0.7 que es en el rango del azul son estrellas de alta masa. Se hace lo mismo para estrellas en el rango rojo para estrellas de baja masa.
+
+Estrellas de alta masa color púrpura y estrellas de baja masa de color rojo.
+
+Se integran las órbitas galácticas de estas estrellas, por lo que, se guarda el potencial de la vía Láctea en el objeto milky_way. Este potencial está compuesto del disco galáctico, el bulbo galáctico, el núcleo galáctico y el halo galáctico
+
+*¿Cómo está compuesta una galaxia, qué es el disco, el bulbo, el núcleo y el halo?
+
+Una de las formas para determinar la masa de la galaxia es determinar el número de estrellas que hay en la galaxia y sus masas.
+
+Se establecen condiciones inciales para el Hamiltoniano.
+
+H(q,p)=T(p)+V(q)
+
+\frac{dq}{dp}=\frac{dH}{dp}  \frac{dp}{dt}=-\frac{dH}{dq} Se resuelven las dos ecuaciones diferenciales para el diagrama de fase
+
+*¿De qué trata el método numérico de leapfrog?
+
+Se puede poner cualquier número antes de 184 y 592 para ver la gráfica de cualquier estrella
+
+Las estrellas de alta masa están más hacia el centro galáctico que las estrellas de baja masa, al mirar al halo de la galaxia se están viendo estrellas más viejas. Las excursiones de las estrellas más viejas son más grandes que las excursiones de las estrellas más jóvenes.
+
+*¿Cuáles estrellas son más excéntricas?
+
+Hay que hacer un filtro desde w0_hi, w0_lo, escoger los que se han movido más de 1.5kpc, desde zmax_hi, zmax_lo

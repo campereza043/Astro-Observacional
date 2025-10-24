@@ -1,0 +1,38 @@
+Clase de astoronomía observacional
+
+29-09-25
+
+En el código de las imagenes del JWST,
+
+En la segunda celda se definen las clsases, las longitudes de onda y los anchos de banda que se están utilizando.
+
+"F070W" Los filtros que se usan y las longitudes de onda en micrómetros
+
+Celda 3:
+
+Abre el archivo lo abre y lo proyecta contra otra imagen
+
+Celda 4:
+
+Se crea una carpeta que se llama layer y se ponen las imágenes que se van a combinar
+
+Celda 5:
+
+Se fusionann las imágenes que se han creado, las imágenes en layer se les asigna un cololr para luego, fusionarlas.
+
+Celda 6:
+
+Por último se procesa cada una de esas impagenes para poder unirlas
+
+Celda 7:
+
+Se hace un ejemplo para un caso en particular, fits_folder es en donde están las imágenes
+
+Se utiliza un arcoseno para suavizar la imágenen y que no se sature, la imagen de escala de grises se ve mucho más bonita y no tan saturada.
+
+Crea las imágenes de las escalas de grises y luego les asigna los colores
+
+Es una imágen porque está compuesta, no es una fotografía
+
+Se necesitan mínimo 3 filtros para hacer las imágenes
+
