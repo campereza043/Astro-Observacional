@@ -1,0 +1,39 @@
+Se utiliza numpy para convertir esa imagen en datos, en un arreglo 2x2 donde cada selda va a tener un valor de intensidad
+
+Nuestro arreglo tiene una forma de 1200x1600 píxeles
+
+El eje x son píxeles y el eje y una coordenada, nos vamos a mover en el eje x y vamos a tomar el valor máximo de la intensidad y ese será el dato y; se pinta el valor máximo de cada una de las columnas, es un método para encontrar la traza, pero hay una dispersión muy grande de datos porque pueden haber pixeles calientes.
+
+Luego se utiliza una máscara para escoger los mejores valores de los pixeles, se escogen los pixeles malos y se pintan de rojo, y ahora se ve la traza mucho más limpia
+
+Ahora se pinta el espectro por lo que se alarga la imagen del espectro
+
+En el tutorial hay una segunda forma de sacar la traza con la media, donde f(x) es la intensidad en la posición x_i
+
+Se saca también el Background, promediando toda la maya, para luego restarle esta radiación de fondo a los valores de y
+
+Se ajusta un polinomio de grado 2 para hacer el ajuste
+
+* Averiguar que es el ajuste LinearLSQFitter()? qué hace?
+
+Luego se hace el mismo procedimiento para un polinomio de orden 3, donde se presenta un mejor ajuste
+
+Luego se excluyen los valores después de 1200
+
+Se coge una región del espectro 15 pixeles arriba y abajo de la traza
+
+Se pinta el perfil de intensidades para cada una de las columnas y se mira como es la intensidad del espectro
+
+Se toma la intensidad para cada uno de los 15 pixeles y se guardan en un arreglo
+
+Del espectro original que teníamos, vamos a tener ahora nuestro espectro desde 0 hasta 30 píxeles y se va a evitar la forma parabólica dejándolo lo más recto posible; luego que promedian todas las intensidades, restando el fondo para obtener solo la señal y ese es el mean_trace_profile; mostrando el promedio de los valores de intensidad, luego se realiza un ajuste gaussiano
+
+*Mirar que es la función LevMarLSQFitter() y en general cómo se hace ese ajuste gaussiano
+
+Para cada uno de los valores en x se dibuja la intensidad de ese x menos el Background, entonces se tiene la intensidad para cada uno de esos pixeles x
+
+Se realiza un promedio y se hace lo mismo
+
+Se hace lo mismo con el valor máximo de la gaussiana
+
+Vamos a sacar ese espcetro de una imagen, a un espectro de intensidades. Repetir el tutorial pero para las estrellas de deneb y vega de la lyra
