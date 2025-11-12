@@ -1,1 +1,43 @@
- 
+Se realiza el mismo procedimiento que en el tutorial anterior
+
+En el tutorial se muestran los espectros de wikipedia "teóricos"
+
+Peor como nuestro espectro no se ve así de nítido se busca una imagen parecida a las imágenes que estamos trabajando
+
+El espectro está al revés de como se acostumbran a poner los espectros
+
+El violeta al lado derecho y el verde al lado izquierdo
+
+La primera línea corresponde al verde y tiene una longitud de onda de 546 nm y corresponde al pixel 165, así sucesivamente en el código; se está haciendo una estimación de los pixeles con las longitudes de onda
+
+Se mejora la estimación considerando 15 pixeles a izquierda y a derecha y se realiza un peso, teniendo unos valores mejorados de los pixeles, entonces ya no se tiene que el pixel para el verde 165 sino 160.73 que sería el valor mejorado del pixel
+
+En la siguiente gráfica se dibuja el espectro con el guess inicial que se realizó y con los valores mejorados, se dibujan todos en 100 de intensidad, se dibujan 3 puntos en esa intensidad de 100
+
+Se realiza un ajuste de esos pixeles con las longitudes de onda y este ajuste lineal se va a tenet en términos de los valores mejorados de los estimativos de los pixeles y los valores de las longitudes de onda de los picos
+
+Se hace el ajuste y se obtienen el punto de corte y la pendiente
+
+En el eje vertical están las longitudes de onda y en el horizontal los pixeles y se tiene la recta, por lo tanto se conoce la relación entre cada pixel y la longitud de onda
+
+Se hace un astroquery al nist, donde se muestran las líneas del mercurio, el kripton y el neon entre los valores mínimos y máximos de als longitudes de onda que tenemos
+
+*Qué es el nist?
+
+Se dibuja el espectro en términos de las longitudes de onda que tenemos y con los datos del nist también
+
+Se dibuja el espectro en términos de longitud de onda y de intensidad
+
+Hace flata la gráfica de la longitud de onda y de intensidad sin compararlo con los datos del nist
+
+TAREA
+
+Realizar el mismo procedimiento para el helio, el mercurio, el neón y el kriptón
+
+Además de la última gráfica en donde se comparan los espectros con los datos del nist se debe graficar únicamente los datos experimentales
+
+Hay que pasar las imágenes a bmp
+
+Una vez se tenga la relación entre longitud de onda y pixel, se hace la traza del espectro
+
+Luego se utilizan las trazas de los elementos para
