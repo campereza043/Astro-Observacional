@@ -1,0 +1,69 @@
+Collecting astroquery
+  Using cached astroquery-0.4.11-py3-none-any.whl (11.1 MB)
+Requirement already satisfied: numpy>=1.20 in ./astro/lib/python3.11/site-packages (from astroquery) (2.3.5)
+Requirement already satisfied: astropy>=5.0 in ./astro/lib/python3.11/site-packages (from astroquery) (7.1.1)
+Collecting requests>=2.19
+  Using cached requests-2.32.5-py3-none-any.whl (64 kB)
+Collecting beautifulsoup4>=4.8
+  Downloading beautifulsoup4-4.14.2-py3-none-any.whl (106 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 106.4/106.4 kB 3.4 MB/s eta 0:00:00
+Collecting html5lib>=0.999
+  Downloading html5lib-1.1-py2.py3-none-any.whl (112 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 112.2/112.2 kB 10.8 MB/s eta 0:00:00
+Collecting keyring>=15.0
+  Downloading keyring-25.7.0-py3-none-any.whl (39 kB)
+Collecting pyvo>=1.5
+  Downloading pyvo-1.8-py3-none-any.whl (1.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 10.4 MB/s eta 0:00:00
+Requirement already satisfied: pyerfa>=2.0.1.1 in ./astro/lib/python3.11/site-packages (from astropy>=5.0->astroquery) (2.0.1.5)
+Requirement already satisfied: astropy-iers-data>=0.2025.9.29.0.35.48 in ./astro/lib/python3.11/site-packages (from astropy>=5.0->astroquery) (0.2025.11.24.0.39.11)
+Requirement already satisfied: PyYAML>=6.0.0 in ./astro/lib/python3.11/site-packages (from astropy>=5.0->astroquery) (6.0.3)
+Requirement already satisfied: packaging>=22.0.0 in ./astro/lib/python3.11/site-packages (from astropy>=5.0->astroquery) (25.0)
+Collecting soupsieve>1.2
+  Downloading soupsieve-2.8-py3-none-any.whl (36 kB)
+Requirement already satisfied: typing-extensions>=4.0.0 in ./astro/lib/python3.11/site-packages (from beautifulsoup4>=4.8->astroquery) (4.15.0)
+Requirement already satisfied: six>=1.9 in ./astro/lib/python3.11/site-packages (from html5lib>=0.999->astroquery) (1.17.0)
+Collecting webencodings
+  Downloading webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Collecting SecretStorage>=3.2
+  Downloading secretstorage-3.5.0-py3-none-any.whl (15 kB)
+Collecting jeepney>=0.4.2
+  Using cached jeepney-0.9.0-py3-none-any.whl (49 kB)
+Collecting importlib_metadata>=4.11.4
+  Using cached importlib_metadata-8.7.0-py3-none-any.whl (27 kB)
+Collecting jaraco.classes
+  Using cached jaraco.classes-3.4.0-py3-none-any.whl (6.8 kB)
+Collecting jaraco.functools
+  Using cached jaraco_functools-4.3.0-py3-none-any.whl (10 kB)
+Collecting jaraco.context
+  Using cached jaraco.context-6.0.1-py3-none-any.whl (6.8 kB)
+Collecting charset_normalizer<4,>=2
+  Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 151.6/151.6 kB 7.9 MB/s eta 0:00:00
+Collecting idna<4,>=2.5
+  Downloading idna-3.11-py3-none-any.whl (71 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.0/71.0 kB 11.4 MB/s eta 0:00:00
+Collecting urllib3<3,>=1.21.1
+  Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 129.8/129.8 kB 7.0 MB/s eta 0:00:00
+Collecting certifi>=2017.4.17
+  Downloading certifi-2025.11.12-py3-none-any.whl (159 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 159.4/159.4 kB 10.4 MB/s eta 0:00:00
+Collecting zipp>=3.20
+  Using cached zipp-3.23.0-py3-none-any.whl (10 kB)
+Collecting cryptography>=2.0
+  Downloading cryptography-46.0.3-cp311-abi3-manylinux_2_34_x86_64.whl (4.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 11.3 MB/s eta 0:00:00
+Collecting more-itertools
+  Downloading more_itertools-10.8.0-py3-none-any.whl (69 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.7/69.7 kB 10.5 MB/s eta 0:00:00
+Collecting backports.tarfile
+  Using cached backports.tarfile-1.2.0-py3-none-any.whl (30 kB)
+Collecting cffi>=2.0.0
+  Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 215.6/215.6 kB 8.5 MB/s eta 0:00:00
+Collecting pycparser
+  Downloading pycparser-2.23-py3-none-any.whl (118 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 118.1/118.1 kB 10.3 MB/s eta 0:00:00
+Installing collected packages: webencodings, zipp, urllib3, soupsieve, pycparser, more-itertools, jeepney, idna, html5lib, charset_normalizer, certifi, backports.tarfile, requests, jaraco.functools, jaraco.context, jaraco.classes, importlib_metadata, cffi, beautifulsoup4, pyvo, cryptography, SecretStorage, keyring, astroquery
+Successfully installed SecretStorage-3.5.0 astroquery-0.4.11 backports.tarfile-1.2.0 beautifulsoup4-4.14.2 certifi-2025.11.12 cffi-2.0.0 charset_normalizer-3.4.4 cryptography-46.0.3 html5lib-1.1 idna-3.11 importlib_metadata-8.7.0 jaraco.classes-3.4.0 jaraco.context-6.0.1 jaraco.functools-4.3.0 jeepney-0.9.0 keyring-25.7.0 more-itertools-10.8.0 pycparser-2.23 pyvo-1.8 requests-2.32.5 soupsieve-2.8 urllib3-2.5.0 webencodings-0.5.1 zipp-3.23.0
