@@ -1,0 +1,2095 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Spectroscopy3}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{spectroscopic-data-reduction-part-3-extracting-the-final-wavelength-calibrated-spectrum}{%
+\section{Spectroscopic Data Reduction Part 3: Extracting the final
+wavelength-calibrated
+spectrum}\label{spectroscopic-data-reduction-part-3-extracting-the-final-wavelength-calibrated-spectrum}}
+
+Este tutorial asume que has revisado los tutoriales de
+\href{1-SpectroscopicTraceTutorial.ipynb}{Trace} y
+\href{2-WavelengthCalibration}{Wavelength Calibration}, y que tienes
+disponibles sus resultados.
+
+\hypertarget{authors}{%
+\subsection{Authors}\label{authors}}
+
+Adam Ginsburg, Kelle Cruz, Lia Corrales, Jonathan Sick, Adrian
+Price-Whelan
+
+\hypertarget{learning-goals}{%
+\subsection{Learning Goals}\label{learning-goals}}
+
+\begin{itemize}
+\tightlist
+\item
+  Extraer un espectro unidimensional (1D) objetivo desde un espectro
+  bidimensional utilizando una traza existente.
+\item
+  Aplicar una solución de longitud de onda ajustada a los datos.
+\item
+  Ajustar un perfil de línea al espectro calibrado en longitud de onda.
+\end{itemize}
+
+\hypertarget{keywords}{%
+\subsection{Keywords}\label{keywords}}
+
+Spectroscopy
+
+\hypertarget{summary}{%
+\subsection{Summary}\label{summary}}
+
+Este tutorial, el tercero de la serie, muestra cómo aplicar una traza y
+una solución de longitud de onda a datos científicos. Luego muestra cómo
+realizar un análisis básico, es decir, el ajuste de líneas espectrales.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{requirements.txt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Required packages for this notebook:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{f}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Required packages for this notebook:
+astropy
+astroquery>=0.4.8.dev9474  \# 2024-09-24 pinned for Gaia column capitalization
+issue
+IPython
+numpy
+pillow
+matplotlib
+
+    \end{Verbatim}
+
+    \hypertarget{extraer-el-espectro-cientuxedfico}{%
+\subsection{Extraer el espectro
+científico}\label{extraer-el-espectro-cientuxedfico}}
+
+Primero, repetimos el proceso de traza y extracción derivado en
+\href{1-SpectroscopicTraceTutorial.ipynb}{Parte 1}, pero ahora para
+Deneb, Aldebarán y Vega:
+
+    \textbf{Imports y por qué se usan}
+
+La celda importa librerías clave:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{PIL.Image} (Pillow): abrir y convertir imágenes (BMP, JPEG,
+  PNG) a arrays.
+\item
+  \texttt{numpy}: manejo de arrays y operaciones numéricas.
+\item
+  \texttt{matplotlib.pyplot}: visualización de imágenes y espectros.
+\item
+  \texttt{astropy.modeling.models.Linear1D}: para ajustar un modelo
+  lineal (inversible).
+\item
+  \texttt{astropy.units} y la activación de
+  \texttt{quantity\_support()}: para manejar valores con unidades y que
+  matplotlib muestre unidades correctamente.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{138}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{PIL} \PY{k+kn}{import} \PY{n}{Image} \PY{k}{as} \PY{n}{PILImage}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{n}{plt}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dark\PYZus{}background}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{139}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{astropy}\PY{n+nn}{.}\PY{n+nn}{modeling}\PY{n+nn}{.}\PY{n+nn}{models} \PY{k+kn}{import} \PY{n}{Linear1D}
+\PY{k+kn}{from} \PY{n+nn}{astropy} \PY{k+kn}{import} \PY{n}{constants}
+\PY{k+kn}{from} \PY{n+nn}{astropy} \PY{k+kn}{import} \PY{n}{units} \PY{k}{as} \PY{n}{u}
+\PY{k+kn}{from} \PY{n+nn}{astropy}\PY{n+nn}{.}\PY{n+nn}{visualization} \PY{k+kn}{import} \PY{n}{quantity\PYZus{}support}
+\PY{n}{quantity\PYZus{}support}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} activar soporte de unidades}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{139}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<astropy.visualization.units.quantity\_support.<locals>.MplQuantityConverter at
+0x7f7178242910>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \textbf{Cargar la imagen de la estrella (Deneb)}
+
+Esta celda abre la imagen \texttt{deneb\_3s\_1.bmp} y la convierte a un
+array NumPy (\texttt{deneb}). Luego imprime la forma del array
+(\texttt{deneb.shape}) para verificar dimensiones (filas, columnas,
+canales).
+
+Qué hace paso a paso: 1. \texttt{PILImage.open(...)} abre el archivo de
+imagen. 2. \texttt{np.array(...)} convierte la imagen a un array para
+poder manipular píxeles. 3. \texttt{print(deneb.shape)} muestra
+dimensiones --- útil para saber si es RGB (hace 3 canales) o L (escala
+de grises).
+
+Si falla: - Verifica la ruta del archivo y su nombre exacto. - Si la
+imagen está en otro formato, conviértela o ajusta la ruta.
+
+    Se realiza el mismo procedimiento para cada una de las estrellas
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{140}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{deneb} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{PILImage}\PY{o}{.}\PY{n}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deneb\PYZus{}3s\PYZus{}1.bmp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{deneb}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(1200, 1600)
+    \end{Verbatim}
+
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{141}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aldebaran} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{PILImage}\PY{o}{.}\PY{n}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{aldebaran\PYZus{}3s\PYZus{}1.bmp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{aldebaran}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(1200, 1600)
+    \end{Verbatim}
+
+    \textbf{Vega}
+
+    Hay que recordar que Vega hay que pasarla a una imágen unidimensional
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{142}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{image\PYZus{}data} \PY{o}{=} \PY{n}{PILImage}\PY{o}{.}\PY{n}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vega\PYZus{}2.bmp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{143}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{vega} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{PILImage}\PY{o}{.}\PY{n}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vega\PYZus{}2.bmp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{vega}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(1024, 1536, 3)
+    \end{Verbatim}
+
+    Se puede observar en el tamaño del array que la imagen de Vega no es
+unidimensional, por lo que se debe pasar
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{144}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} our data are unsigned 8\PYZhy{}bit integers (0\PYZhy{}255) representing a monochromatic image}
+\PY{c+c1}{\PYZsh{} we can see this by printing the array version of the image}
+\PY{c+c1}{\PYZsh{} we can also see its shape, verifying that it is indeed 2\PYZhy{}dimensional}
+\PY{k}{if} \PY{n}{image\PYZus{}data}\PY{o}{.}\PY{n}{mode} \PY{o}{!=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{L}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+    \PY{n}{image\PYZus{}data} \PY{o}{=} \PY{n}{image\PYZus{}data}\PY{o}{.}\PY{n}{convert}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{L}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{vega\PYZus{}1D} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{image\PYZus{}data}\PY{p}{)}
+\PY{n}{vega\PYZus{}1D}\PY{p}{,} \PY{n}{vega\PYZus{}1D}\PY{o}{.}\PY{n}{shape}
+
+
+
+\PY{n}{vega\PYZus{}1D}\PY{p}{,} \PY{n}{vega\PYZus{}1D}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{144}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(array([[43, 17, 49, {\ldots}, 49, 46, 41],
+        [28, 26, 52, {\ldots}, 43, 42, 48],
+        [47, 44, 39, {\ldots}, 36, 35, 53],
+        {\ldots},
+        [53, 65, 32, {\ldots}, 30, 25, 11],
+        [34, 38, 32, {\ldots}, 45, 35, 35],
+        [ 7,  0,  6, {\ldots}, 36, 32, 49]], shape=(1024, 1536), dtype=uint8),
+ (1024, 1536))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{145}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{astropy}\PY{n+nn}{.}\PY{n+nn}{modeling}\PY{n+nn}{.}\PY{n+nn}{polynomial} \PY{k+kn}{import} \PY{n}{Polynomial1D}
+\PY{k+kn}{from} \PY{n+nn}{astropy}\PY{n+nn}{.}\PY{n+nn}{modeling}\PY{n+nn}{.}\PY{n+nn}{models} \PY{k+kn}{import} \PY{n}{Gaussian1D}
+\PY{k+kn}{from} \PY{n+nn}{astropy}\PY{n+nn}{.}\PY{n+nn}{modeling}\PY{n+nn}{.}\PY{n+nn}{fitting} \PY{k+kn}{import} \PY{n}{LevMarLSQFitter}\PY{p}{,} \PY{n}{LinearLSQFitter}
+\PY{n}{linfitter} \PY{o}{=} \PY{n}{LinearLSQFitter}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Recortar a la región de interés}
+
+Aquí se seleccionan las filas/columnas que contienen la franja
+espectral: el recorte reduce ruido y acelera el procesamiento.
+
+Paso a paso: 1. Determinar índices (row\_min:row\_max) que abarcan la
+franja. 2. Cortar el array:
+\texttt{sub\ =\ deneb{[}row\_min:row\_max,\ :{]}} (si el espectro es
+horizontal). 3. Visualizar \texttt{sub} para confirmar que la franja
+está completa.
+
+Consejo práctico: deja un pequeño margen alrededor de la franja para
+incluir la cola del perfil.
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{239}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{yaxis2\PYZus{}deneb} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{470}\PY{p}{,} \PY{l+m+mi}{520}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{k+kc}{None}\PY{p}{]}\PY{p}{,} \PY{n}{deneb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{xvals\PYZus{}deneb} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{deneb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{weighted\PYZus{}yaxis\PYZus{}values2\PYZus{}deneb} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{yaxis2\PYZus{}deneb}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{deneb}\PY{p}{[}\PY{l+m+mi}{470}\PY{p}{:}\PY{l+m+mi}{520}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{n}{deneb}\PY{p}{)}\PY{p}{)}
+\PY{n}{polymodel2} \PY{o}{=} \PY{n}{Polynomial1D}\PY{p}{(}\PY{n}{degree}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fitted\PYZus{}polymodel2\PYZus{}deneb} \PY{o}{=} \PY{n}{linfitter}\PY{p}{(}\PY{n}{polymodel2}\PY{p}{,} \PY{n}{xvals\PYZus{}deneb}\PY{p}{,} \PY{n}{weighted\PYZus{}yaxis\PYZus{}values2\PYZus{}deneb}\PY{p}{)}
+\PY{n}{trace\PYZus{}center\PYZus{}deneb} \PY{o}{=} \PY{n}{fitted\PYZus{}polymodel2\PYZus{}deneb}\PY{p}{(}\PY{n}{xvals\PYZus{}deneb}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{240}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{yaxis2\PYZus{}aldebaran} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{425}\PY{p}{,} \PY{l+m+mi}{475}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{k+kc}{None}\PY{p}{]}\PY{p}{,} \PY{n}{aldebaran}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{xvals\PYZus{}aldebaran} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{aldebaran}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{weighted\PYZus{}yaxis\PYZus{}values2\PYZus{}aldebaran} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{yaxis2\PYZus{}aldebaran}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{aldebaran}\PY{p}{[}\PY{l+m+mi}{425}\PY{p}{:}\PY{l+m+mi}{475}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{n}{aldebaran}\PY{p}{)}\PY{p}{)}
+\PY{n}{polymodel2} \PY{o}{=} \PY{n}{Polynomial1D}\PY{p}{(}\PY{n}{degree}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fitted\PYZus{}polymodel2\PYZus{}aldebaran} \PY{o}{=} \PY{n}{linfitter}\PY{p}{(}\PY{n}{polymodel2}\PY{p}{,} \PY{n}{xvals\PYZus{}aldebaran}\PY{p}{,} \PY{n}{weighted\PYZus{}yaxis\PYZus{}values2\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{trace\PYZus{}center\PYZus{}aldebaran} \PY{o}{=} \PY{n}{fitted\PYZus{}polymodel2\PYZus{}aldebaran}\PY{p}{(}\PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{241}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{yaxis2\PYZus{}vega} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{265}\PY{p}{,} \PY{l+m+mi}{320}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{k+kc}{None}\PY{p}{]}\PY{p}{,} \PY{n}{vega\PYZus{}1D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{xvals\PYZus{}vega} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{vega\PYZus{}1D}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{weighted\PYZus{}yaxis\PYZus{}values2\PYZus{}vega} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{yaxis2\PYZus{}vega}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{vega\PYZus{}1D}\PY{p}{[}\PY{l+m+mi}{265}\PY{p}{:}\PY{l+m+mi}{320}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{n}{vega\PYZus{}1D}\PY{p}{)}\PY{p}{)}
+\PY{n}{polymodel2} \PY{o}{=} \PY{n}{Polynomial1D}\PY{p}{(}\PY{n}{degree}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{fitted\PYZus{}polymodel2\PYZus{}vega} \PY{o}{=} \PY{n}{linfitter}\PY{p}{(}\PY{n}{polymodel2}\PY{p}{,} \PY{n}{xvals\PYZus{}vega}\PY{p}{,} \PY{n}{weighted\PYZus{}yaxis\PYZus{}values2\PYZus{}vega}\PY{p}{)}
+\PY{n}{trace\PYZus{}center\PYZus{}vega} \PY{o}{=} \PY{n}{fitted\PYZus{}polymodel2\PYZus{}vega}\PY{p}{(}\PY{n}{xvals\PYZus{}vega}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Se tienen las trazas de cada una de las estrellas:
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{242}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{npixels\PYZus{}to\PYZus{}cut} \PY{o}{=} \PY{l+m+mi}{15}
+\PY{n}{trace\PYZus{}center\PYZus{}deneb} \PY{o}{=} \PY{n}{fitted\PYZus{}polymodel2\PYZus{}deneb}\PY{p}{(}\PY{n}{xvals\PYZus{}deneb}\PY{p}{)}
+\PY{n}{cutouts\PYZus{}deneb} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{deneb}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{:}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{+}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{,} \PY{n}{ii}\PY{p}{]}
+                    \PY{k}{for} \PY{n}{yval}\PY{p}{,} \PY{n}{ii} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{trace\PYZus{}center\PYZus{}deneb}\PY{p}{,} \PY{n}{xvals\PYZus{}deneb}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{cutouts\PYZus{}deneb}\PY{o}{.}\PY{n}{shape}
+\PY{n}{mean\PYZus{}trace\PYZus{}profile\PYZus{}deneb} \PY{o}{=} \PY{n}{cutouts\PYZus{}deneb}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{243}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{npixels\PYZus{}to\PYZus{}cut} \PY{o}{=} \PY{l+m+mi}{15}
+\PY{n}{trace\PYZus{}center\PYZus{}aldebaran} \PY{o}{=} \PY{n}{fitted\PYZus{}polymodel2\PYZus{}aldebaran}\PY{p}{(}\PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{cutouts\PYZus{}aldebaran} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{aldebaran}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{:}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{+}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{,} \PY{n}{ii}\PY{p}{]}
+                    \PY{k}{for} \PY{n}{yval}\PY{p}{,} \PY{n}{ii} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{trace\PYZus{}center\PYZus{}aldebaran}\PY{p}{,} \PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{cutouts\PYZus{}aldebaran}\PY{o}{.}\PY{n}{shape}
+\PY{n}{mean\PYZus{}trace\PYZus{}profile\PYZus{}aldebaran} \PY{o}{=} \PY{n}{cutouts\PYZus{}aldebaran}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{244}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{npixels\PYZus{}to\PYZus{}cut} \PY{o}{=} \PY{l+m+mi}{15}
+\PY{n}{trace\PYZus{}center\PYZus{}vega} \PY{o}{=} \PY{n}{fitted\PYZus{}polymodel2\PYZus{}vega}\PY{p}{(}\PY{n}{xvals\PYZus{}vega}\PY{p}{)}
+\PY{n}{cutouts\PYZus{}vega} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{vega}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{:}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{+}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{,} \PY{n}{ii}\PY{p}{]}
+                    \PY{k}{for} \PY{n}{yval}\PY{p}{,} \PY{n}{ii} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{trace\PYZus{}center\PYZus{}vega}\PY{p}{,} \PY{n}{xvals\PYZus{}vega}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{cutouts\PYZus{}vega}\PY{o}{.}\PY{n}{shape}
+\PY{n}{mean\PYZus{}trace\PYZus{}profile\PYZus{}vega} \PY{o}{=} \PY{n}{cutouts\PYZus{}vega}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Se define el espectro para cada estrella:
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{245}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{spectro\PYZus{}deneb} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{deneb}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{:}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{+}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{,} \PY{n}{ii}\PY{p}{]}\PY{p}{,}
+                                \PY{n}{weights}\PY{o}{=}\PY{n}{mean\PYZus{}trace\PYZus{}profile\PYZus{}deneb}\PY{p}{)}
+                     \PY{k}{for} \PY{n}{yval}\PY{p}{,} \PY{n}{ii} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{trace\PYZus{}center\PYZus{}deneb}\PY{p}{,} \PY{n}{xvals\PYZus{}deneb}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{246}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{spectro\PYZus{}aldebaran} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{aldebaran}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{:}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{+}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{,} \PY{n}{ii}\PY{p}{]}\PY{p}{,}
+                                \PY{n}{weights}\PY{o}{=}\PY{n}{mean\PYZus{}trace\PYZus{}profile\PYZus{}aldebaran}\PY{p}{)}
+                     \PY{k}{for} \PY{n}{yval}\PY{p}{,} \PY{n}{ii} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{trace\PYZus{}center\PYZus{}aldebaran}\PY{p}{,} \PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{247}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{spectro\PYZus{}vega} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{vega}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{:}\PY{n+nb}{int}\PY{p}{(}\PY{n}{yval}\PY{p}{)}\PY{o}{+}\PY{n}{npixels\PYZus{}to\PYZus{}cut}\PY{p}{,} \PY{n}{ii}\PY{p}{]}\PY{p}{,}
+                                \PY{n}{weights}\PY{o}{=}\PY{n}{mean\PYZus{}trace\PYZus{}profile\PYZus{}vega}\PY{p}{)}
+                     \PY{k}{for} \PY{n}{yval}\PY{p}{,} \PY{n}{ii} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{trace\PYZus{}center\PYZus{}vega}\PY{p}{,} \PY{n}{xvals\PYZus{}vega}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    De la parte 2 del tutorial sacamos los modelos de las longitudes de onda
+para cada uno de los elementos químicos que teníamos (Mercurio, Neón,
+Kriptón y Helio)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{248}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wlmodel\PYZus{}hg} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mf}{0.47440419}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mf}{392.01792493}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{249}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wlmodel\PYZus{}ne} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mf}{0.10356106}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mf}{568.98285354}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{250}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wlmodel\PYZus{}kr} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mf}{0.41087675}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mf}{440.96239182}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{251}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wlmodel\PYZus{}he} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mf}{0.43333839}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mf}{382.77840874}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Para cada estrella aplicamos los modelos de las longitudes de onda de
+los elementos químicos
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{252}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb} \PY{o}{=} \PY{n}{wlmodel\PYZus{}hg}\PY{p}{(}\PY{n}{xvals\PYZus{}deneb}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{253}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb} \PY{o}{=} \PY{n}{wlmodel\PYZus{}ne}\PY{p}{(}\PY{n}{xvals\PYZus{}deneb}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{254}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb} \PY{o}{=} \PY{n}{wlmodel\PYZus{}kr}\PY{p}{(}\PY{n}{xvals\PYZus{}deneb}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{255}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb} \PY{o}{=} \PY{n}{wlmodel\PYZus{}he}\PY{p}{(}\PY{n}{xvals\PYZus{}deneb}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{256}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran} \PY{o}{=} \PY{n}{wlmodel\PYZus{}hg}\PY{p}{(}\PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{257}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran} \PY{o}{=} \PY{n}{wlmodel\PYZus{}ne}\PY{p}{(}\PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{258}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran} \PY{o}{=} \PY{n}{wlmodel\PYZus{}kr}\PY{p}{(}\PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{259}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran} \PY{o}{=} \PY{n}{wlmodel\PYZus{}he}\PY{p}{(}\PY{n}{xvals\PYZus{}aldebaran}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{270}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega} \PY{o}{=} \PY{n}{wlmodel\PYZus{}hg}\PY{p}{(}\PY{n}{xvals\PYZus{}vega}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{271}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega} \PY{o}{=} \PY{n}{wlmodel\PYZus{}ne}\PY{p}{(}\PY{n}{xvals\PYZus{}vega}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{272}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega} \PY{o}{=} \PY{n}{wlmodel\PYZus{}kr}\PY{p}{(}\PY{n}{xvals\PYZus{}vega}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{273}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{wavelengths\PYZus{}he\PYZus{}vega} \PY{o}{=} \PY{n}{wlmodel\PYZus{}he}\PY{p}{(}\PY{n}{xvals\PYZus{}vega}\PY{p}{)} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{nm}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Se grafican las trazas de cada estrella con los modelos de los
+diferentes elementos
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{274}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{274}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f719d872250>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_60_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{275}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{275}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7177d12110>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_61_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{276}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{276}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7177c9c5d0>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_62_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{277}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{277}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7177bd0190>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_63_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{278}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{278}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7178e58f50>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_65_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{279}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{279}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7177afefd0>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_66_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{280}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{280}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f719cbd3950>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_67_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{281}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{281}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f71779a3d90>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_68_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{282}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{282}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7177eb8f50>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_70_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{283}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{283}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f719ca75910>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_71_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{284}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{284}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7177c23990>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_72_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{285}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{285}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[<matplotlib.lines.Line2D at 0x7f7177a39790>]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_73_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{analysis}{%
+\section{Analysis}\label{analysis}}
+
+Now, we go on to do some basic analysis on our fully extracted and
+wavelength-calibrated spectrum
+
+    Hacemos zoom para poder ver los picos de absorción de mejor manera
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{201}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{700}\PY{p}{,}\PY{l+m+mi}{790}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{201}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(700.0), np.float64(790.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_77_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{202}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{630}\PY{p}{,}\PY{l+m+mi}{660}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{202}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(630.0), np.float64(660.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_78_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{203}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{700}\PY{p}{,}\PY{l+m+mi}{790}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{203}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(700.0), np.float64(790.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_79_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{204}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{670}\PY{p}{,}\PY{l+m+mi}{740}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{204}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(670.0), np.float64(740.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_80_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{326}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{520}\PY{p}{,}\PY{l+m+mi}{670}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{326}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(520.0), np.float64(670.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_82_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{327}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{590}\PY{p}{,}\PY{l+m+mi}{635}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{327}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(590.0), np.float64(635.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_83_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{332}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{550}\PY{p}{,}\PY{l+m+mi}{685}\PY{p}{,}\PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{332}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(550.0), np.float64(685.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_84_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{334}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{510}\PY{p}{,}\PY{l+m+mi}{620}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{334}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(510.0), np.float64(620.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_85_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{396}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{620}\PY{p}{,}\PY{l+m+mi}{730}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{396}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(620.0), np.float64(730.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_87_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{397}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{620}\PY{p}{,}\PY{l+m+mi}{645}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{397}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(620.0), np.float64(645.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_88_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{307}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{640}\PY{p}{,}\PY{l+m+mi}{740}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{307}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(640.0), np.float64(740.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_89_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{315}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{600}\PY{p}{,}\PY{l+m+mi}{690}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{315}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(600.0), np.float64(690.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_90_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We can use astropy models to construct an absorption line model,
+consisting of a continuum level and a negative Gaussian to represent the
+absorption feature
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{316}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}deneb} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{175}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{25}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{745}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{317}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}deneb} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{175}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{25}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mf}{646.5}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{318}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}deneb} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{175}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{25}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mf}{746.5}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{319}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}deneb} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{175}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{25}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{705}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{393}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}aldebaran} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{140}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{38}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{590}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{386}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}aldebaran} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{140}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{38}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mf}{612.5}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{364}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}aldebaran} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{140}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{38}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{612}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{367}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}aldebaran} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{140}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{38}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{565}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{395}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}vega} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{138}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{685}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{398}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}vega} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{138}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mf}{632.5}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{399}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}vega} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{138}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{693}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{400}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}vega} \PY{o}{=} \PY{n}{Linear1D}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{138}\PY{p}{)} \PY{o}{+} \PY{n}{Gaussian1D}\PY{p}{(}\PY{n}{amplitude}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{mean}\PY{o}{=}\PY{l+m+mi}{650}\PY{p}{,} \PY{n}{stddev}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We can overplot our guessed model - it's not right, but it's in the
+right spot
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{205}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{700}\PY{p}{,}\PY{l+m+mi}{790}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{205}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(700.0), np.float64(790.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_109_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{206}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{630}\PY{p}{,}\PY{l+m+mi}{660}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{206}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(630.0), np.float64(660.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_110_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{207}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{700}\PY{p}{,}\PY{l+m+mi}{790}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{207}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(700.0), np.float64(790.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_111_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{355}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{670}\PY{p}{,}\PY{l+m+mi}{740}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{355}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(670.0), np.float64(740.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_112_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{394}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{520}\PY{p}{,}\PY{l+m+mi}{670}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{394}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(520.0), np.float64(670.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_114_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{357}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{590}\PY{p}{,}\PY{l+m+mi}{635}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{357}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(590.0), np.float64(635.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_115_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{365}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{550}\PY{p}{,}\PY{l+m+mi}{685}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{365}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(550.0), np.float64(685.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_116_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{368}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{510}\PY{p}{,}\PY{l+m+mi}{620}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{368}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(510.0), np.float64(620.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_117_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{402}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{620}\PY{p}{,}\PY{l+m+mi}{730}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{402}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(620.0), np.float64(730.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_119_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{403}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{620}\PY{p}{,}\PY{l+m+mi}{645}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{403}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(620.0), np.float64(645.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_120_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{404}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{640}\PY{p}{,}\PY{l+m+mi}{740}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{404}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(640.0), np.float64(740.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_121_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{405}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{p}{,} \PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{600}\PY{p}{,}\PY{l+m+mi}{690}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{405}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(600.0), np.float64(690.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_122_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Se ajustan los límites de las longitudes de onda para cada uno de los
+elementos y estrellas
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{209}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}hg\PYZus{}deneb} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb} \PY{o}{\PYZgt{}} \PY{l+m+mi}{700}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb} \PY{o}{\PYZlt{}} \PY{l+m+mi}{790}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}hg\PYZus{}deneb} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}deneb}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}hg\PYZus{}deneb}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}deneb}\PY{p}{[}\PY{n}{selection\PYZus{}hg\PYZus{}deneb}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{210}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}ne\PYZus{}deneb} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb} \PY{o}{\PYZgt{}} \PY{l+m+mi}{630}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb} \PY{o}{\PYZlt{}} \PY{l+m+mi}{660}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}ne\PYZus{}deneb} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}deneb}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}ne\PYZus{}deneb}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}deneb}\PY{p}{[}\PY{n}{selection\PYZus{}ne\PYZus{}deneb}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{211}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}kr\PYZus{}deneb} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb} \PY{o}{\PYZgt{}} \PY{l+m+mi}{700}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb} \PY{o}{\PYZlt{}} \PY{l+m+mi}{790}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}kr\PYZus{}deneb} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}deneb}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}kr\PYZus{}deneb}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}deneb}\PY{p}{[}\PY{n}{selection\PYZus{}kr\PYZus{}deneb}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{119}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}he\PYZus{}deneb} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb} \PY{o}{\PYZgt{}} \PY{l+m+mi}{670}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb} \PY{o}{\PYZlt{}} \PY{l+m+mi}{740}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}he\PYZus{}deneb} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}deneb}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}he\PYZus{}deneb}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectrum2}\PY{p}{[}\PY{n}{selection\PYZus{}he\PYZus{}deneb}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{372}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}hg\PYZus{}aldebaran} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran} \PY{o}{\PYZgt{}} \PY{l+m+mi}{520}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran} \PY{o}{\PYZlt{}} \PY{l+m+mi}{660}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}hg\PYZus{}aldebaran} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}aldebaran}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}hg\PYZus{}aldebaran}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}aldebaran}\PY{p}{[}\PY{n}{selection\PYZus{}hg\PYZus{}aldebaran}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{373}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}ne\PYZus{}aldebaran} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran} \PY{o}{\PYZgt{}} \PY{l+m+mi}{590}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran} \PY{o}{\PYZlt{}} \PY{l+m+mi}{635}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}ne\PYZus{}aldebaran} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}aldebaran}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}ne\PYZus{}aldebaran}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}aldebaran}\PY{p}{[}\PY{n}{selection\PYZus{}ne\PYZus{}aldebaran}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{374}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}kr\PYZus{}aldebaran} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran} \PY{o}{\PYZgt{}} \PY{l+m+mi}{550}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran} \PY{o}{\PYZlt{}} \PY{l+m+mi}{685}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}kr\PYZus{}aldebaran} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}aldebaran}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}kr\PYZus{}aldebaran}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}aldebaran}\PY{p}{[}\PY{n}{selection\PYZus{}kr\PYZus{}aldebaran}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{375}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}he\PYZus{}aldebaran} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran} \PY{o}{\PYZgt{}} \PY{l+m+mi}{510}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran} \PY{o}{\PYZlt{}} \PY{l+m+mi}{620}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}he\PYZus{}aldebaran} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}aldebaran}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}he\PYZus{}aldebaran}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}aldebaran}\PY{p}{[}\PY{n}{selection\PYZus{}he\PYZus{}aldebaran}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{406}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}hg\PYZus{}vega} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega} \PY{o}{\PYZgt{}} \PY{l+m+mi}{620}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega} \PY{o}{\PYZlt{}} \PY{l+m+mi}{730}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}hg\PYZus{}vega} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}hg\PYZus{}vega}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}hg\PYZus{}vega}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}vega}\PY{p}{[}\PY{n}{selection\PYZus{}hg\PYZus{}vega}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{407}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}ne\PYZus{}vega} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega} \PY{o}{\PYZgt{}} \PY{l+m+mi}{620}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega} \PY{o}{\PYZlt{}} \PY{l+m+mi}{645}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}ne\PYZus{}vega} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}ne\PYZus{}vega}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}ne\PYZus{}vega}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}vega}\PY{p}{[}\PY{n}{selection\PYZus{}ne\PYZus{}vega}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{408}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}kr\PYZus{}vega} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega} \PY{o}{\PYZgt{}} \PY{l+m+mi}{640}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega} \PY{o}{\PYZlt{}} \PY{l+m+mi}{740}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}kr\PYZus{}vega} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}kr\PYZus{}vega}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}kr\PYZus{}vega}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}vega}\PY{p}{[}\PY{n}{selection\PYZus{}kr\PYZus{}vega}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{409}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lmfitter} \PY{o}{=} \PY{n}{LevMarLSQFitter}\PY{p}{(}\PY{p}{)}
+\PY{n}{selection\PYZus{}he\PYZus{}vega} \PY{o}{=} \PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega} \PY{o}{\PYZgt{}} \PY{l+m+mi}{600}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega} \PY{o}{\PYZlt{}} \PY{l+m+mi}{690}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{nm}\PY{p}{)} 
+\PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}he\PYZus{}vega} \PY{o}{=} \PY{n}{lmfitter}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{absorption\PYZus{}model\PYZus{}guess\PYZus{}he\PYZus{}vega}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{[}\PY{n}{selection\PYZus{}he\PYZus{}vega}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{spectro\PYZus{}vega}\PY{p}{[}\PY{n}{selection\PYZus{}he\PYZus{}vega}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Se observa el espectro de absorción y el ajuste gaussiano mejorado
+
+    \textbf{Deneb}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{212}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}hg\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{700}\PY{p}{,}\PY{l+m+mi}{790}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{212}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(700.0), np.float64(790.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_141_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{213}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}ne\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{630}\PY{p}{,}\PY{l+m+mi}{660}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{213}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(630.0), np.float64(660.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_142_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{214}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}kr\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{700}\PY{p}{,}\PY{l+m+mi}{790}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{214}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(700.0), np.float64(790.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_143_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{216}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{p}{,} \PY{n}{spectro\PYZus{}deneb}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}he\PYZus{}deneb}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}deneb}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{670}\PY{p}{,}\PY{l+m+mi}{740}\PY{p}{,} \PY{l+m+mi}{140}\PY{p}{,}\PY{l+m+mi}{185}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{216}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(670.0), np.float64(740.0), np.float64(140.0), np.float64(185.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_144_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Aldebarán}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{389}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}hg\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{510}\PY{p}{,}\PY{l+m+mi}{650}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{389}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(510.0), np.float64(650.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_146_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{384}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}ne\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{590}\PY{p}{,}\PY{l+m+mi}{635}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{384}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(590.0), np.float64(635.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_147_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{388}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}kr\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{550}\PY{p}{,} \PY{l+m+mi}{685}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{388}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(550.0), np.float64(685.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_148_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{390}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{p}{,} \PY{n}{spectro\PYZus{}aldebaran}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}he\PYZus{}aldebaran}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}aldebaran}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{510}\PY{p}{,}\PY{l+m+mi}{620}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,}\PY{l+m+mi}{170}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{390}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(510.0), np.float64(620.0), np.float64(100.0), np.float64(170.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_149_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Vega}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{410}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}hg\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}hg\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{620}\PY{p}{,}\PY{l+m+mi}{730}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{410}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(620.0), np.float64(730.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_151_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{411}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}ne\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}ne\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{620}\PY{p}{,}\PY{l+m+mi}{645}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{411}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(620.0), np.float64(645.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_152_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{412}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}kr\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}kr\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{640}\PY{p}{,}\PY{l+m+mi}{740}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{412}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(640.0), np.float64(740.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_153_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{413}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{p}{,} \PY{n}{spectro\PYZus{}vega}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{p}{,} \PY{n}{fitted\PYZus{}absorption\PYZus{}model\PYZus{}he\PYZus{}vega}\PY{p}{(}\PY{n}{wavelengths\PYZus{}he\PYZus{}vega}\PY{o}{.}\PY{n}{value}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{600}\PY{p}{,}\PY{l+m+mi}{690}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,}\PY{l+m+mi}{145}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{413}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(np.float64(600.0), np.float64(690.0), np.float64(80.0), np.float64(145.0))
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_154_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    That's it! You've extracted and wavelength-calibrated a spectrum.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

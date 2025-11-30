@@ -1,1 +1,23 @@
- 
+Tutotial espectros 3
+
+Se abre la imágen de la estrella debeb y como se está guardando la imágen como un arreglo Numpy se puede ver el tamaño del arreglo
+
+Se define linfitter para un ajuste lineal
+
+Se ajustan los límites del espectro [470,520], la zona que se va a escoger.
+
+Sehace el procedimiento del primer tutorial, realizando una traza y se realiza un ajuste polinomial de grado 3 y luego se encuentra la traza; se toma un espacio de 15 pixeles arriba y debajo de la traza y se realiza un promedio de esos pixeles, se tiene la intensidad en términos de los pixeles.
+
+La segunda parte es poner los pixeles en términos de la longitud de onda, lo que se hizo en el tutorial 2, se tiene le punto de intersección y la pendiente. Se tienen longitudes de onda en términos de intensidad.
+
+Se mira una de las líneas, que está cerca de 480, se pinta la región, para extraer una pequeña parte del espectro, se crea un perfil gaussiano, se tiene una línea continua a la cual se le ajusta una curva gaussiana, se ingresan los valores del intercepto, la amplitud, la mediana.
+
+Se realiza un primer acercamiento con una curva gaussiana de nuestra línea de absorción del espectro
+
+*Qué es el LevMarlSQFitter? (Es para crear ajustes que no son líneales)
+
+Se ajusta el modelo por medio de LevMarlSQFitter, se tienen las longitudes de onda de selección y se utilizan los parámetros que se pusieron.
+
+Se crean los espectros sintéticos, que son espectros puramente teóricos.
+
+Tenemos que realizar el mismo procedimiento, sacando la longitud de onda en términos de la intensidad y se coge una de las líneas realizando diferentes ajustes de las líneas de emisión de
