@@ -1,0 +1,88 @@
+Tutorial ondas gravitacionales 1.1
+
+Se usa la misión Ligo Virgo que permite detectar ondas gravitacionales por medio de interferómetros.
+
+Lo que vamos a hacer es trabajar con datos abiertos de algunos observatorios.
+
+Primero miraremos como podemos acceder a estos datos.
+
+El primero baja datos de la colaboración de observatorios
+
+Se descarga la librería gwosc y se mira la versión
+
+Se accede a uno de los catálogos
+
+*Qué es la librería gwosc?
+
+Se importa find_datasets para acceder a diferentes catálogos
+
+Se entra al catálogo GWTC-1-confident
+
+Y se averiguan los eventos, que son los procesos o fenómenos que suceden en la naturaleza
+
+*Qué significan los eventos GW150914-V3 (Gravitacional Waves 2015 Sep. 14) Qué significan las versiones?
+
+*A qué corresponden cada uno de los eventos como GW150914-V3?
+
+*Cuál fue el primer evento registrado por todos los observatorios?
+
+*Qué son los runs? (sesiones de observación) A qué corresponden las categorías? cuántos run ha tenido Ligo Virgo? Cuál es el último run detectado?
+
+El detector L1 corresponde a Ligo, el segmento se encuentra en unidades de GPS
+
+*Qué son los tiempos GPS? Por qué el 6 de enero de 1980 es el tiempo inicial?
+
+Para saber el tiempo GPS de uno de los eventos importamos event_gps, también se debe pasar al tiempo del calendario gregoriano.
+
+Se importa run_segment para encontrar el intervalo de tiempo en event_gps
+
+Se buscan los eventos en el catálogo y en ese intervalo de tiempo, solo hay 3 eventos para ese run dentro de ese catálogo
+
+Se encuentran las direcciones de los datos de esos eventos, de la librería gwos.locate se importa get_event_urls, para que nos dé las direcciones de los diferentes archivos para ese evento
+
+Esos archivos están en dormato .hdf5
+
+*Qué son los archivos .hdf5 y para qué se utilizan?
+
+Se realiza lo mismo pero con la duración y el detector, solo un
+
+*Cuántos meses duró S6? A qué corresponden los run S?
+*Cuántos eventos del catálogo fueron detectados durante O1?
+
+Tutorial ondas gravitacionales 1.2
+
+Se instala gwpy y miramos la versión y que la función TimeSeries funcone correctamente
+
+Se encuentran los gps de los eventos
+
+Se crea un intervalo por nosotros, de 5 o 10 segundos antes y después.
+
+Se tiene el nombre de cada uno de los observatorios
+
+*Averiguar cuáles son los interferómetros mencionados en el tutorial.
+
+Se importa TimeSeries y tenemos el tiempo en función de una variable strain, que es la amplitud de la deformación que se tuvo, es una unidad adimensional H? \Delta L/L, pero son muy pequeños porque los \Delta L son del orden de x10^{-18} y el L con un orden de x10³
+
+Dibujamos ldata, en el inetervalo de 10 segundos se tienen las deformaciones en los brazos, vemos cómo se comprimen o dilatan los brazos del interferómetro debido a las ondas gravitacionales.
+
+Encontramos ese mismo evento en términos de frecuencia, por lo que hacemos uso de la transformada rápida de Fourier (fft)
+
+Se dibuja la transformada rápida de Fourier, como las amplitudes son complejas se saca el valor absoluto y se dibuja en una escala logarítmica.
+
+Pero la gráfica obtenida no es correcta porque la FFT requiere que la función que se está transformando sea periódica, pero nuestra función no es periódica.
+
+Para corregir eso se usa una ventana, que es una función que corrige la forma de la función y la vuelve periódica en los extremos
+
+*Qué es una ventana matemáticamente y para qué sirve?
+
+Al ldata se le multiplica la ventana, para obtener la variable corregida y se vuelve a dibujar de la misma manera.
+
+Ya están corregidas las fronteras de la imagen, se tiene un pico al rededor de los 10Hz y luego se tiene mucho ruido y algunos picos, se observa la sensibilidad del equipo, para frecuencias menores de 20Hz son frecuencias que dependen de objetos macroscópicos, paso de camiones, movimiento de la tierra y demás.
+
+Luego entre 500 y 2000 Hz es donde el equipo debe funcionar mejor, luego de 2000 Hz se habla ed interferencia cuántica, del láser, de los espejos
+
+Como se tiene tanto ruido, se limpia el ruido con un método de dinsidad espectral de potencia (PSD) que es un método para filtrar ruido.
+
+Y el Amplitude Spectral Density (ASD), como el Welch's method para combinar la FFT
+
+*Deducir las unidades del (ASD)
