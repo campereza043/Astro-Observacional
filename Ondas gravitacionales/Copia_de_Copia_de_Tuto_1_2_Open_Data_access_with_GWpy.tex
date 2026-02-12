@@ -1,0 +1,1074 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Copia\_de\_Copia\_de\_Tuto\_1\_2\_Open\_Data\_access\_with\_GWpy}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{gravitational-wave-open-data-workshop-4}{%
+\section{Gravitational Wave Open Data Workshop
+\#4}\label{gravitational-wave-open-data-workshop-4}}
+
+\hypertarget{tutorial-1.2-introduction-to-gwpy}{%
+\paragraph{Tutorial 1.2: Introduction to
+GWpy}\label{tutorial-1.2-introduction-to-gwpy}}
+
+This tutorial will briefly describe GWpy, a python package for
+gravitational astrophysics, and walk-through how you can use this to
+speed up access to, and processing of, GWOSC data.
+
+\href{https://colab.research.google.com/github/gw-odw/odw-2021/blob/master/Day_1/Tuto\%201.2\%20Open\%20Data\%20access\%20with\%20GWpy.ipynb}{Click
+this link to view this tutorial in Google Colaboratory}
+
+This notebook was generated using python 3.8, but should work on python
+2.7, 3.6, or 3.7.
+
+    \hypertarget{installation-execute-only-if-running-on-a-cloud-platform-like-google-colab-or-if-you-havent-done-the-installation-already}{%
+\subsection{Installation (execute only if running on a cloud platform,
+like Google Colab, or if you haven't done the installation
+already!)}\label{installation-execute-only-if-running-on-a-cloud-platform-like-google-colab-or-if-you-havent-done-the-installation-already}}
+
+Note: we use
+\href{https://docs.python.org/3.6/installing/}{\texttt{pip}}, but
+\textbf{it is recommended} to use
+\href{https://docs.ligo.org/lscsoft/conda/}{conda} on your own machine,
+as explained in the
+\href{https://github.com/gw-odw/odw-2021\%7C/blob/master/setup.md}{installation
+instructions}. This usage might look a little different than normal,
+simply because we want to do this directly from the notebook.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{} Uncomment following line if running in Google Colab}
+\PY{o}{!}\PY{+w}{ }pip\PY{+w}{ }install\PY{+w}{ }\PYZhy{}q\PY{+w}{ }\PY{l+s+s1}{\PYZsq{}gwpy==3.0.12\PYZsq{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   \textcolor{ansi-black-intense}{━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━} \textcolor{ansi-green}{1.4/1.4 MB}
+\textcolor{ansi-red}{11.0 MB/s} eta \textcolor{ansi-cyan}{0:00:00}
+   \textcolor{ansi-black-intense}{━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━} \textcolor{ansi-green}{315.5/315.5 kB}
+\textcolor{ansi-red}{24.1 MB/s} eta \textcolor{ansi-cyan}{0:00:00}
+   \textcolor{ansi-black-intense}{━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━} \textcolor{ansi-green}{45.2/45.2 kB}
+\textcolor{ansi-red}{3.4 MB/s} eta \textcolor{ansi-cyan}{0:00:00}
+   \textcolor{ansi-black-intense}{━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━} \textcolor{ansi-green}{131.1/131.1 kB}
+\textcolor{ansi-red}{10.5 MB/s} eta \textcolor{ansi-cyan}{0:00:00}
+   \textcolor{ansi-black-intense}{━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━} \textcolor{ansi-green}{4.5/4.5 MB}
+\textcolor{ansi-red}{101.3 MB/s} eta \textcolor{ansi-cyan}{0:00:00}
+\textcolor{ansi-red}{ERROR: pip's dependency resolver does not currently take into account
+all the packages that are installed. This behaviour is the source of the
+following dependency conflicts.
+pyopenssl 24.2.1 requires cryptography<44,>=41.0.5, but you have cryptography
+46.0.3 which is incompatible.
+pydrive2 1.21.3 requires cryptography<44, but you have cryptography 46.0.3 which
+is incompatible.}\textcolor{ansi-red}{
+}
+    \end{Verbatim}
+
+    \textbf{Important:} With Google Colab, you may need to restart the
+runtime after running the cell above.
+
+    \hypertarget{initialization}{%
+\subsection{Initialization}\label{initialization}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{gwpy}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gwpy}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}
+
+\PY{k+kn}{from} \PY{n+nn}{gwpy}\PY{n+nn}{.}\PY{n+nn}{timeseries} \PY{k+kn}{import} \PY{n}{TimeSeries}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gwpy importado OK:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{TimeSeries}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+3.0.12
+gwpy importado OK: <class 'gwpy.timeseries.timeseries.TimeSeries'>
+    \end{Verbatim}
+
+    \hypertarget{a-note-on-object-oriented-programming}{%
+\subsection{A note on object-oriented
+programming}\label{a-note-on-object-oriented-programming}}
+
+Before we dive too deeply, it's worth a quick aside on object-oriented
+programming (OOP).
+\href{https://gwpy.github.io/docs/stable/index.html}{GWpy} is heavily
+object-oriented, meaning almost all of the code you run using GWpy is
+based around an object of some type, e.g.~\texttt{TimeSeries}. Most of
+the methods (functions) we will use are attached to an object, rather
+than standing alone, meaning you should have a pretty good idea of what
+sort of data you are dealing with (without having to read the
+documentation!).
+
+For a quick overview of object-oriented programming in Python, see
+\href{https://jeffknupp.com/blog/2014/06/18/improve-your-python-python-classes-and-object-oriented-programming/}{this
+blog post by Jeff Knupp}.
+
+    \hypertarget{handling-data-in-the-time-domain}{%
+\subsection{Handling data in the time
+domain}\label{handling-data-in-the-time-domain}}
+
+    \hypertarget{finding-open-data}{%
+\paragraph{Finding open data}\label{finding-open-data}}
+
+We have seen already that the \texttt{gwosc} module can be used to query
+for what data are available on
+\href{https://www.gw-openscience.org/data/}{GWOSC}. The next thing to do
+is to actually read some open data. Let's try to get some for GW190412,
+the first detection of a gravitational-wave signal from an unequal-mass
+BBH (binary black hole system).
+
+We can use the
+\href{https://gwpy.github.io/docs/stable/api/gwpy.timeseries.TimeSeries.html\#gwpy.timeseries.TimeSeries.fetch_open_data}{\texttt{TimeSeries.fetch\_open\_data}}
+method to download data directly from https://www.gw-openscience.org,
+but we need to know the GPS times. We can query for the GPS time of an
+event as follows:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{gwosc}\PY{n+nn}{.}\PY{n+nn}{datasets} \PY{k+kn}{import} \PY{n}{event\PYZus{}gps}
+\PY{n}{gps} \PY{o}{=} \PY{n}{event\PYZus{}gps}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GW190412}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gps}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+1239082262.1
+    \end{Verbatim}
+
+    Now we can build a \texttt{{[}start,\ end)} GPS segment to 10 seconds
+around this time, using integers for convenience:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{segment} \PY{o}{=} \PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{segment}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(1239082257, 1239082267)
+    \end{Verbatim}
+
+    and can now query for the full data. For this example we choose to
+retrieve data for the LIGO-Livingston interferometer, using the
+identifier \texttt{\textquotesingle{}L1\textquotesingle{}}. We could
+have chosen any of
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\textquotesingle{}G1}' - GEO600
+\item
+  \texttt{\textquotesingle{}H1\textquotesingle{}} - LIGO-Hanford
+\item
+  \texttt{\textquotesingle{}L1\textquotesingle{}} - LIGO-Livingston
+\item
+  \texttt{\textquotesingle{}V1\textquotesingle{}} - (Advanced) Virgo
+\end{itemize}
+
+In the future, the Japanese observatory KAGRA will come online, with the
+identifier \texttt{\textquotesingle{}K1\textquotesingle{}}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{gwpy}\PY{n+nn}{.}\PY{n+nn}{timeseries} \PY{k+kn}{import} \PY{n}{TimeSeries}
+\PY{n}{ldata} \PY{o}{=} \PY{n}{TimeSeries}\PY{o}{.}\PY{n}{fetch\PYZus{}open\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{L1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{o}{*}\PY{n}{segment}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{ldata}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Fetched 1 URLs from gwosc.org for [1239082257 .. 1239082267))
+Reading data{\ldots} [Done]
+TimeSeries([-8.42597565e-19, -8.52437103e-19, -8.60738804e-19,
+            {\ldots},  1.38850270e-19,  1.37760541e-19,
+             1.38094202e-19]
+           unit: dimensionless,
+           t0: 1239082257.0 s,
+           dt: 0.000244140625 s,
+           name: Strain,
+           channel: None)
+    \end{Verbatim}
+
+    \hypertarget{the-verbosetrue-flag-lets-us-see-that-gwpy-has-discovered-one-file-that-provides-the-data-for-the-given-interval-downloaded-it-and-loaded-the-data.}{%
+\subparagraph{\texorpdfstring{The \texttt{verbose=True} flag lets us see
+that GWpy has discovered one file that provides the data for the given
+interval, downloaded it, and loaded the
+data.}{The verbose=True flag lets us see that GWpy has discovered one file that provides the data for the given interval, downloaded it, and loaded the data.}}\label{the-verbosetrue-flag-lets-us-see-that-gwpy-has-discovered-one-file-that-provides-the-data-for-the-given-interval-downloaded-it-and-loaded-the-data.}}
+
+The files are not stored permanently, so next time you do the same call,
+it will be downloaded again, however, if you know you might repeat the
+same call many times, you can use \texttt{cache=True} to store the file
+on your computer.
+
+Notes:
+
+\begin{itemize}
+\item
+  To control the dataset from which your data come from you can use the
+  `dataset' keyword. It is recommended to use data from a run if they
+  are available, because they contain the most updated version of the
+  calibration. To check which was the run at the time you want to query,
+  it is enough to use the find\_datasets method of the package gwosc
+  discussed in the previous tutorial, specifying
+  (type=`run',segment=segment). For example, for the segment we are
+  using in this tutorial, the two available datasets are
+  {[}`O3a\_16KHZ\_R1', `O3a\_4KHZ\_R1'{]}. For the sampling at 4 kHz,
+  the complete command to get data from this dataset is then:
+  \_TimeSeries.fetch\_open\_data(`L1', *segment, verbose=True,
+  dataset=`O3a\_4KHZ\_R1')\_
+\item
+  To read data from a local file instead of from the GWOSC server, we
+  can use
+  \href{https://gwpy.github.io/docs/stable/api/gwpy.timeseries.TimeSeries.html\#gwpy.timeseries.TimeSeries.read}{\texttt{TimeSeries.read}}
+  method.
+\end{itemize}
+
+We have now downloaded real LIGO data for GW190412! These are the actual
+data used in the analysis that discovered the first binary black hole
+merger.
+
+    To sanity check things, we can easily make a plot, using the
+\href{https://gwpy.github.io/docs/stable/timeseries/plot.html}{\texttt{plot()}}
+method of the \texttt{data} \texttt{TimeSeries}.
+
+    Since this is the first time we are plotting something in this notebook,
+we need to configure \texttt{matplotlib} (the plotting library) to work
+within the notebook properly:
+
+    Matplotlib documentation can be found
+\href{https://matplotlib.org/contents.html}{\texttt{here}}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{n}{plot} \PY{o}{=} \PY{n}{ldata}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Notes: There are alternative ways to access the GWOSC data.
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://losc.ligo.org/s/sample_code/readligo.py}{\texttt{readligo}}
+  is a light-weight Python module that returns the time series into a
+  Numpy array.
+\item
+  The \href{http://github.com/ligo-cbc/pycbc}{PyCBC} package has the
+  \texttt{pycbc.frame.query\_and\_read\_frame} and
+  \texttt{pycbc.frame.read\_frame} methods. We use
+  \href{http://github.com/ligo-cbc/pycbc}{PyCBC} in Tutorial 2.1, 2.2
+  and 2.3.
+\end{itemize}
+
+    \hypertarget{handling-data-in-the-frequency-domain-using-the-fourier-transform}{%
+\subsection{Handling data in the frequency domain using the Fourier
+transform}\label{handling-data-in-the-frequency-domain-using-the-fourier-transform}}
+
+The \href{https://en.wikipedia.org/wiki/Fourier_transform}{Fourier
+transform} is a widely-used mathematical tool to expose the
+frequency-domain content of a time-domain signal, meaning we can see
+which frequencies contain lots of power, and which have less.
+
+We can calculate the Fourier transform of our \texttt{TimeSeries} using
+the
+\href{https://gwpy.github.io/docs/stable/api/gwpy.timeseries.TimeSeries.html\#gwpy.timeseries.TimeSeries.fft}{\texttt{fft()}}
+method:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fft} \PY{o}{=} \PY{n}{ldata}\PY{o}{.}\PY{n}{fft}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{fft}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+FrequencySeries([-1.45894410e-21+0.00000000e+00j,
+                 -2.91834926e-21-4.52905657e-23j,
+                 -2.91973330e-21-9.06202944e-23j, {\ldots},
+                 -2.38723982e-23+4.67871178e-26j,
+                 -2.38345362e-23+1.80394058e-26j,
+                 -2.38457175e-23+0.00000000e+00j]
+                unit: dimensionless,
+                f0: 0.0 Hz,
+                df: 0.1 Hz,
+                epoch: 1239082257.0,
+                name: Strain,
+                channel: None)
+    \end{Verbatim}
+
+    The result is a
+\href{https://gwpy.github.io/docs/stable/frequencyseries/}{\texttt{FrequencySeries}},
+with complex amplitude, representing the amplitude and phase of each
+frequency in our data. We can use \texttt{abs()} to extract the
+amplitude and plot that:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot} \PY{o}{=} \PY{n}{fft}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{yscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    This doesn't look correct at all! The problem is that the FFT works
+under the assumption that our data are periodic, which means that the
+edges of our data look like discontinuities when transformed. We need to
+apply a window function to our time-domain data before transforming,
+which we can do using the
+\href{https://docs.scipy.org/doc/scipy/reference/signal.html}{\texttt{scipy.signal}}
+module:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{signal} \PY{k+kn}{import} \PY{n}{get\PYZus{}window}
+\PY{n}{window} \PY{o}{=} \PY{n}{get\PYZus{}window}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hann}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ldata}\PY{o}{.}\PY{n}{size}\PY{p}{)}
+\PY{n}{lwin} \PY{o}{=} \PY{n}{ldata} \PY{o}{*} \PY{n}{window}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Let's try our transform again and see what we get
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fftamp} \PY{o}{=} \PY{n}{lwin}\PY{o}{.}\PY{n}{fft}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{p}{)}
+\PY{n}{plot} \PY{o}{=} \PY{n}{fftamp}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{yscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    This looks a little more like what we expect for the amplitude spectral
+density of a gravitational-wave detector.
+
+    \hypertarget{calculating-the-power-spectral-density}{%
+\subsection{Calculating the power spectral
+density}\label{calculating-the-power-spectral-density}}
+
+In practice, we typically use a large number of FFTs to estimate an
+average power spectral density over a long period of data. We can do
+this using the
+\href{https://gwpy.github.io/docs/stable/api/gwpy.timeseries.TimeSeries.html\#gwpy.timeseries.TimeSeries.asd}{\texttt{asd()}}
+method, which uses
+\href{https://en.wikipedia.org/wiki/Welch\%27s_method}{Welch's method}
+to combine FFTs of overlapping, windowed chunks of data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{asd} \PY{o}{=} \PY{n}{ldata}\PY{o}{.}\PY{n}{asd}\PY{p}{(}\PY{n}{fftlength}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot} \PY{o}{=} \PY{n}{asd}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_30_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{1400}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mf}{1e\PYZhy{}24}\PY{p}{,} \PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+\PY{n}{plot}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{13}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    The ASD is a standard tool used to study the frequency-domain
+sensitivity of a gravitational-wave detector. For the LIGO-Livingston
+data we loaded, we can see large spikes at certain frequencies,
+including
+
+\begin{itemize}
+\tightlist
+\item
+  \textasciitilde300 Hz
+\item
+  \textasciitilde500 Hz
+\item
+  \textasciitilde1000 Hz
+\end{itemize}
+
+The \href{https://www.gw-openscience.org/o2speclines/}{O2 spectral
+lines} page on GWOSC describes a number of these spectral features for
+O2, with some of them being forced upon us, and some being deliberately
+introduced to help with interferometer control.
+
+Loading more data allows for more FFTs to be averaged during the ASD
+calculation, meaning random variations get averaged out, and we can see
+more detail:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ldata2} \PY{o}{=} \PY{n}{TimeSeries}\PY{o}{.}\PY{n}{fetch\PYZus{}open\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{L1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{512}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{cache}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{lasd2} \PY{o}{=} \PY{n}{ldata2}\PY{o}{.}\PY{n}{asd}\PY{p}{(}\PY{n}{fftlength}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot} \PY{o}{=} \PY{n}{lasd2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{1400}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mf}{1e\PYZhy{}24}\PY{p}{,} \PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Now we can see some more features, including sets of lines around
+\textasciitilde30 Hz and \textasciitilde65 Hz, and some more isolated
+lines through the more sensitive region.
+
+For comparison, we can load the LIGO-Hanford data and plot that as well:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} get Hanford data}
+\PY{n}{hdata2} \PY{o}{=} \PY{n}{TimeSeries}\PY{o}{.}\PY{n}{fetch\PYZus{}open\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{512}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{cache}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{hasd2} \PY{o}{=} \PY{n}{hdata2}\PY{o}{.}\PY{n}{asd}\PY{p}{(}\PY{n}{fftlength}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} get Virgo data}
+\PY{n}{vdata2} \PY{o}{=} \PY{n}{TimeSeries}\PY{o}{.}\PY{n}{fetch\PYZus{}open\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{512}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{cache}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{vasd2} \PY{o}{=} \PY{n}{vdata2}\PY{o}{.}\PY{n}{asd}\PY{p}{(}\PY{n}{fftlength}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} and plot using standard colours}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{hasd2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LIGO\PYZhy{}Hanford}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gwpy:ligo\PYZhy{}hanford}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{vasd2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Virgo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gwpy:virgo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} update the Livingston line to use standard colour, and have a label}
+\PY{n}{lline} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{lines}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{lline}\PY{o}{.}\PY{n}{set\PYZus{}color}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gwpy:ligo\PYZhy{}livingston}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} change colour of Livingston data}
+\PY{n}{lline}\PY{o}{.}\PY{n}{set\PYZus{}label}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LIGO\PYZhy{}Livingston}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Strain noise [\PYZdl{}1/}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{sqrt}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mathrm}\PY{l+s+si}{\PYZob{}Hz\PYZcb{}}\PY{l+s+s1}{\PYZcb{}\PYZdl{}]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plot}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{15}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    Now we can see clearly the relative sensitivity of each LIGO instrument,
+the common features between both, and those unique to each observatory.
+
+    \hypertarget{challenges}{%
+\section{Challenges:}\label{challenges}}
+
+    \hypertarget{quiz-question-1}{%
+\section{Quiz Question 1:}\label{quiz-question-1}}
+
+La amplitud máxima en los datos de LIGO-Livingston ocurre
+aproximadamente a los 5 segundos en la gráfica anterior y es imposible
+de detectar a simple vista por encima del ruido de fondo. Grafique los
+datos para el detector LIGO-Hanford alrededor del evento GW190412. Al
+observar su nueva gráfica de LIGO-Hanford, ¿puede su ojo identificar un
+pico de señal?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ldata2} \PY{o}{=} \PY{n}{TimeSeries}\PY{o}{.}\PY{n}{fetch\PYZus{}open\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{512}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{cache}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{lasd2} \PY{o}{=} \PY{n}{ldata2}\PY{o}{.}\PY{n}{asd}\PY{p}{(}\PY{n}{fftlength}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot} \PY{o}{=} \PY{n}{lasd2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{1400}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mf}{1e\PYZhy{}24}\PY{p}{,} \PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    No se puede detectar un pico de señal ya que la señal de ruido sigue
+siendo muy grande para detectar las señales a simple vista
+
+    \hypertarget{quiz-question-2}{%
+\section{Quiz Question 2 :}\label{quiz-question-2}}
+
+Cree una ASD (densidad espectral de amplitud) alrededor del momento de
+un evento de O1, GW150914, para el detector L1. Compare esto con las ASD
+alrededor de GW190412 para el detector L1. ¿Qué datos tienen menor ruido
+---y por lo tanto son más sensibles--- alrededor de los 100 Hz?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{gwosc}\PY{n+nn}{.}\PY{n+nn}{datasets} \PY{k+kn}{import} \PY{n}{event\PYZus{}gps}
+\PY{n}{gps} \PY{o}{=} \PY{n}{event\PYZus{}gps}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GW150914}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gps}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+1126259462.4
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{segment} \PY{o}{=} \PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{segment}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(1126259457, 1126259467)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{gwpy}\PY{n+nn}{.}\PY{n+nn}{timeseries} \PY{k+kn}{import} \PY{n}{TimeSeries}
+\PY{n}{ldata} \PY{o}{=} \PY{n}{TimeSeries}\PY{o}{.}\PY{n}{fetch\PYZus{}open\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{L1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{o}{*}\PY{n}{segment}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{ldata}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Fetched 1 URLs from gwosc.org for [1126259457 .. 1126259467))
+Reading data{\ldots} [Done]
+TimeSeries([-9.31087178e-19, -9.75697062e-19, -1.01074940e-18,
+            {\ldots}, -1.13460681e-18, -1.11414494e-18,
+            -1.15931435e-18]
+           unit: dimensionless,
+           t0: 1126259457.0 s,
+           dt: 0.000244140625 s,
+           name: Strain,
+           channel: None)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{n}{plot} \PY{o}{=} \PY{n}{ldata}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_45_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fft} \PY{o}{=} \PY{n}{ldata}\PY{o}{.}\PY{n}{fft}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{fft}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+FrequencySeries([-1.05219333e-18+0.00000000e+00j,
+                 -9.36314427e-22+6.61514979e-23j,
+                 -8.74693847e-22-3.26717194e-23j, {\ldots},
+                  6.63325463e-24-1.10870240e-26j,
+                  6.73663868e-24-7.82178218e-26j,
+                  6.69598891e-24+0.00000000e+00j]
+                unit: dimensionless,
+                f0: 0.0 Hz,
+                df: 0.1 Hz,
+                epoch: 1126259457.0,
+                name: Strain,
+                channel: None)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot} \PY{o}{=} \PY{n}{fft}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{yscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_47_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{signal} \PY{k+kn}{import} \PY{n}{get\PYZus{}window}
+\PY{n}{window} \PY{o}{=} \PY{n}{get\PYZus{}window}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hann}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ldata}\PY{o}{.}\PY{n}{size}\PY{p}{)}
+\PY{n}{lwin} \PY{o}{=} \PY{n}{ldata} \PY{o}{*} \PY{n}{window}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fftamp} \PY{o}{=} \PY{n}{lwin}\PY{o}{.}\PY{n}{fft}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{p}{)}
+\PY{n}{plot} \PY{o}{=} \PY{n}{fftamp}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{yscale}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_49_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{1400}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mf}{1e\PYZhy{}26}\PY{p}{,} \PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+\PY{n}{plot}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{32}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_50_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ldata2} \PY{o}{=} \PY{n}{TimeSeries}\PY{o}{.}\PY{n}{fetch\PYZus{}open\PYZus{}data}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{L1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{512}\PY{p}{,} \PY{n+nb}{int}\PY{p}{(}\PY{n}{gps}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{cache}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{lasd2} \PY{o}{=} \PY{n}{ldata2}\PY{o}{.}\PY{n}{asd}\PY{p}{(}\PY{n}{fftlength}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot} \PY{o}{=} \PY{n}{lasd2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{plot}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{1400}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mf}{1e\PYZhy{}24}\PY{p}{,} \PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+\PY{n}{plot}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{n}{warn}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_51_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Al rededor de los 100 Hz el evento GW190412 presenta menor ruido que el
+GW150914
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
